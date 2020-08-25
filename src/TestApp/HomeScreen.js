@@ -6,33 +6,24 @@ import Header from "./Header";
 import ImageCard from "./ImageCard";
 import styles from './CSS';
 import data from './data.json'
+import DetailsScreen from "./DetailsScreen";
 
 function HomeScreen({navigation}) {
         return (
             <View>
-                    <Header title={"Hello world"}/>
+                    <Header title={"GAMES"}/>
                     <ScrollView>
                             <View style={styles.main}>
                                     {data.map(item => (
                                         <ImageCard
                                             data={item}
                                             key={item.id}
-                                            onPress={() => navigation.navigate('Details')}
+                                            onPress={() => navigation.navigate('Details', (item))}
                                         />
                                     ))
-
                                     }
                             </View>
                     </ScrollView>
-
-            </View>
-        );
-}
-
-function DetailsScreen() {
-        return (
-            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                    <Text>Details Screen</Text>
             </View>
         );
 }
@@ -42,9 +33,9 @@ const Stack = createStackNavigator();
 function App() {
         return (
             <NavigationContainer>
-                    <Stack.Navigator initialRouteName="Home">
-                            <Stack.Screen name="Home" component={HomeScreen}/>
-                            <Stack.Screen name="Details" component={DetailsScreen}/>
+                    <Stack.Navigator initialRouteName="Home" >
+                            <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen}/>
+                            <Stack.Screen options={{title: 'Подробная информация'}} name="Details" component={DetailsScreen}/>
                     </Stack.Navigator>
             </NavigationContainer>
         );

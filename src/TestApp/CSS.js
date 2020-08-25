@@ -10,7 +10,8 @@ export default StyleSheet.create({
         headerText:{
                 color: '#fff',
                 fontSize: 32,
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                paddingBottom: 30
         },
         header:{
                 backgroundColor: '#30d0fe',
@@ -44,5 +45,14 @@ export default StyleSheet.create({
                 flexShrink: 2,
                 justifyContent: 'space-around',
                 marginBottom: 150
+        },
+        detailsContainer:{
+                flex: 2,
+                paddingTop: 10,
+                paddingLeft: 10
+        },
+        detailsText:{
+                paddingRight: 10,
+                paddingTop: 5,
         }
 });
