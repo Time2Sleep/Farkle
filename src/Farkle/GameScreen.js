@@ -1,14 +1,23 @@
-import React, {useState, Component} from 'react'
-import {View, Text, TouchableOpacity, StyleSheet, ImageBackground} from 'react-native'
+import React, {useState} from 'react'
+import {Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 
-
+const imageImports = {
+        0: require("../../assets/dice1.png"),
+        1: require("../../assets/dice2.png"),
+        2: require("../../assets/dice3.png"),
+        3: require("../../assets/dice4.png"),
+        4: require("../../assets/dice5.png"),
+        5: require("../../assets/dice6.png"),
+};
 
 function GameScreen({navigation}) {
-        var [text, setText] = useState("TOUCH ME");
-        const {container, image, selfScoreContainer, selfScoreText, opponentScoreContainer, opponentScoreText, button, pauseButton, touchable} = styles
+        const {container, image, selfScoreContainer, selfScoreText, opponentScoreContainer, opponentScoreText, button, pauseButton, dice} = styles
         let scoreText = "ВСЕГО /2000: \n0 \nРАУНД: \n0 \nБРОСОК: \n0 ";
+        var [dices, setDices] = useState([]);
+
         return (
-            <View style={container}>
+            <View style={container} onStartShouldSetResponder={() => true}
+                  onResponderGrant={(event) => throwDices(event)}>
                     <ImageBackground source={require('../../assets/BG.jpg')} style={image}>
 
                             <View style={{flexDirection: 'row'}}>
@@ -24,28 +33,41 @@ function GameScreen({navigation}) {
                                             </Text>
                                     </View>
                             </View>
+                            <View style={{flex: 1}}>
+                                    {dices.map(dice => <Dice key={dice.id} diceInfo={dice}/>)}
+                            </View>
+
                             <View style={selfScoreContainer}>
-                                    <TouchableOpacity style={touchable} onPress={() => throwDices()}>
-                                            <MainContent text={text}/>
-                                            <Text style={selfScoreText}>
-                                                    {scoreText}
-                                            </Text>
-                                    </TouchableOpacity>
+
+                                    <Text style={selfScoreText}>
+                                            {scoreText}
+                                    </Text>
                             </View>
                     </ImageBackground>
             </View>
         );
+
+
         function throwDices() {
-                setText("lelel");
+                let dices = [];
+                for (let i = 0; i < 6; i++) {
+                        dices[i] = {
+                                id: i,
+                                value: Math.floor(Math.random() * 6),
+                                paddingLeft: Math.random() * 4 * 50 - 100,
+                                paddingTop: Math.random() * 6 * 50 - 150,
+                        };
+
+                }
+                setDices(dices);
         }
 }
 
 
-function MainContent({text}) {
+function Dice({diceInfo}) {
         return (
-            <View>
-                    <Text style={styles.contentText}> {text}</Text>
-            </View>
+            <Image source={imageImports[diceInfo.value]}
+                   style={[styles.diceImg, {right: diceInfo.paddingLeft, bottom: diceInfo.paddingTop}]}></Image>
         )
 }
 
@@ -53,6 +75,11 @@ function MainContent({text}) {
 const styles = StyleSheet.create({
         container: {
                 flex: 1,
+        },
+        diceImg: {
+                width: 75,
+                height: 75,
+                alignSelf: 'center',
         },
         image: {
                 flex: 1,
@@ -95,11 +122,15 @@ const styles = StyleSheet.create({
                 flex: 1,
                 justifyContent: 'flex-end',
         },
+        dice: {
+                flex: 1,
+                alignItems: 'center',
+                backgroundColor: "red"
+        },
         contentText: {
                 alignSelf: 'center',
                 fontSize: 45,
-                color: 'white',
-                paddingBottom: 80
+                color: 'white'
         }
 });
 
