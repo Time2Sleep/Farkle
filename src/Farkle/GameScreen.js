@@ -1,8 +1,11 @@
-import React from 'react'
+import React, {useState, Component} from 'react'
 import {View, Text, TouchableOpacity, StyleSheet, ImageBackground} from 'react-native'
 
+let text = "TOUCH ME"
+
 function GameScreen({navigation}) {
-        const {container, image, selfScoreContainer, selfScoreText, opponentScoreContainer, opponentScoreText, button, pauseButton} = styles
+        const {container, image, selfScoreContainer, selfScoreText, opponentScoreContainer, opponentScoreText, button, pauseButton, touchable} = styles
+        let scoreText = "ВСЕГО /2000: \n0 \nРАУНД: \n0 \nБРОСОК: \n0 "
         return(
                 <View style={container}>
                         <ImageBackground source={require('../../assets/BG.jpg')} style={image}>
@@ -15,30 +18,36 @@ function GameScreen({navigation}) {
                                         </View>
                                         <View style={opponentScoreContainer}>
                                                 <Text style={opponentScoreText}>
-                                                        ВСЕГО /2000: {"\n"}
-                                                        0 {"\n"}
-                                                        РАУНД: {"\n"}
-                                                        0 {"\n"}
-                                                        БРОСОК: {"\n"}
-                                                        0 {"\n"}
+                                                        {scoreText}
                                                 </Text>
                                         </View>
                                 </View>
                                 <View style={selfScoreContainer}>
+                                        <TouchableOpacity style={touchable} onPress={() => throwDices()}>
+                                                <MainContent text={text}/>
                                         <Text style={selfScoreText}>
-                                                ВСЕГО /2000: {"\n"}
-                                                0 {"\n"}
-                                                РАУНД: {"\n"}
-                                                0 {"\n"}
-                                                БРОСОК: {"\n"}
-                                                0 {"\n"}
+                                                {scoreText}
                                         </Text>
+                                        </TouchableOpacity>
                                 </View>
                         </ImageBackground>
                 </View>
         )
 
 }
+
+function throwDices(){
+        text = "lelel"
+}
+
+function MainContent({text}){
+        return(
+        <View>
+                <Text style={styles.contentText}> {text}</Text>
+        </View>
+        )
+}
+
 
 const styles = StyleSheet.create({
         container: {
@@ -80,6 +89,16 @@ const styles = StyleSheet.create({
                 color: '#fff',
                 fontWeight: 'bold',
                 fontSize: 32,
+        },
+        touchable:{
+                flex: 1,
+                justifyContent: 'flex-end',
+        },
+        contentText:{
+                alignSelf: 'center',
+                fontSize: 45,
+                color: 'white',
+                paddingBottom: 80
         }
 });
 
